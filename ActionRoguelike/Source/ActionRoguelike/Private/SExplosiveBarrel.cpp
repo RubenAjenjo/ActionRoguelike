@@ -37,10 +37,10 @@ void ASExplosiveBarrel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherAc
 	RadialForceComp->FireImpulse();
 	StaticMeshComp->SetPhysicsLinearVelocity(FVector::UpVector * 1000.f);
 	StaticMeshComp->SetPhysicsAngularVelocity(FVector(FMath::RandRange(-10.2f, 10.2f), FMath::RandRange(-10.2f, 10.2f), FMath::RandRange(-10.2f, 10.2f)));
-	//StaticMeshComp->OnComponentHit.RemoveAll(this);
+	StaticMeshComp->OnComponentHit.RemoveAll(this);
 
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Explosion, GetActorTransform());
-	auto PartSysComp = UGameplayStatics::SpawnEmitterAttached(FireParticles, StaticMeshComp);// , NAME_None, StaticMeshComp->GetComponentLocation(), GetActorRotation(), EAttachLocation::Type::SnapToTargetIncludingScale, false);
+	auto PartSysComp = UGameplayStatics::SpawnEmitterAttached(FireParticles, StaticMeshComp);
 }
 // Called every frame
 void ASExplosiveBarrel::Tick(float DeltaTime)
