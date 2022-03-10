@@ -99,11 +99,11 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	FVector End = CamLocation + GetControlRotation().Vector() * 100000.f;
 	if (GetWorld()->LineTraceSingleByChannel(Hit, CamLocation, End, ECC_Visibility))
 	{
-		End = Hit.ImpactPoint;
+		End = Hit.ImpactPoint;		
 	}
 
 	FTransform SpawnTM = FTransform((End - HandLocation).Rotation(), HandLocation);
-
+	
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Instigator = this;
