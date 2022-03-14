@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SCharacterBase.h"
 #include "GameFramework/Character.h"
 #include "SAICharacter.generated.h"
 
 class UPawnSensingComponent;
 
 UCLASS()
-class ACTIONROGUELIKE_API ASAICharacter : public ACharacter
+class ACTIONROGUELIKE_API ASAICharacter : public ASCharacterBase
 {
 	GENERATED_BODY()
 

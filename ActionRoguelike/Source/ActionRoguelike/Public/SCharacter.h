@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SCharacterBase.h"
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
@@ -12,7 +13,7 @@ class USInteractionComponent;
 class UAnimMontage;
 
 UCLASS()
-class ACTIONROGUELIKE_API ASCharacter : public ACharacter
+class ACTIONROGUELIKE_API ASCharacter : public ASCharacterBase
 {
 	GENERATED_BODY()
 

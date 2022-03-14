@@ -5,6 +5,7 @@
 
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/Character.h"
 
 EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
@@ -19,13 +20,13 @@ EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& O
 		}
 
 		const FVector MuzzleLocation = AICharacter->GetMesh()->GetSocketLocation("Muzzle_01");
-		const AActor* TargetActor = Cast<AActor>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("TargetActor"));
+		const ACharacter* TargetActor = Cast<ACharacter>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("TargetActor"));
 		if (TargetActor == nullptr)
 		{
 			return EBTNodeResult::Failed;
 		}
 
-		const FVector Direction = TargetActor->GetActorLocation() - MuzzleLocation;
+		const FVector Direction = (TargetActor->GetActorLocation() + (FVector::UpVector * TargetActor->GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * .75f)) - MuzzleLocation;
 		const FRotator MuzzleRotation = Direction.Rotation();
 
 		FActorSpawnParameters SpawnParams;

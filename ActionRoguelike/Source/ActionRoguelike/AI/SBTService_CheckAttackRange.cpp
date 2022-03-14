@@ -5,6 +5,7 @@
 
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 void USBTService_CheckAttackRange::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
@@ -23,11 +24,12 @@ void USBTService_CheckAttackRange::TickNode(UBehaviorTreeComponent& OwnerComp, u
 				{
 					float DistanceTo = FVector::Distance(TargetActor->GetActorLocation(), AIPawn->GetActorLocation());
 					bool bWithinRange = DistanceTo < 1500.f;
-					bool bInLineOfSight;
+					bool bInLineOfSight = false;
 					if (bWithinRange)
 					{
 						bInLineOfSight = AIController->LineOfSightTo(TargetActor);
 					}
+
 					BB->SetValueAsBool(AttackRangeKey.SelectedKeyName, bWithinRange && bInLineOfSight);
 				}
 			}
