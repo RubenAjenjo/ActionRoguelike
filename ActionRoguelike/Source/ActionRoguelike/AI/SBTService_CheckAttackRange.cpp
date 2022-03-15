@@ -23,11 +23,36 @@ void USBTService_CheckAttackRange::TickNode(UBehaviorTreeComponent& OwnerComp, u
 				if (ensure(AIPawn))
 				{
 					float DistanceTo = FVector::Distance(TargetActor->GetActorLocation(), AIPawn->GetActorLocation());
-					bool bWithinRange = DistanceTo < 1500.f;
+					bool bWithinRange = DistanceTo < 3500.f;
 					bool bInLineOfSight = false;
 					if (bWithinRange)
 					{
-						bInLineOfSight = AIController->LineOfSightTo(TargetActor);
+						FHitResult Hit;
+						FVector TargetLoc = TargetActor->GetActorLocation();
+						FVector PawnEyes;
+						FRotator PawnRot = AIPawn->GetActorRotation();
+						AIPawn->GetActorEyesViewPoint(PawnEyes, PawnRot);
+						TArray<AActor*> ActorsToIgnore;
+						ActorsToIgnore.Add(AIPawn);
+						UKismetSystemLibrary::SphereTraceSingle(
+							GetWorld(),
+							PawnEyes,
+							TargetLoc,
+							20.f,
+							UEngineTypes::ConvertToTraceType(ECC_Pawn),
+							false,
+							ActorsToIgnore,
+							EDrawDebugTrace::None,
+							Hit,
+							true,
+							FLinearColor::Red,
+							FLinearColor::Green,
+							5
+						);
+
+						if (Hit.Actor == TargetActor)
+							bInLineOfSight = true;
+							
 					}
 
 					BB->SetValueAsBool(AttackRangeKey.SelectedKeyName, bWithinRange && bInLineOfSight);
